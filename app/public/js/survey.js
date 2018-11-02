@@ -2,6 +2,7 @@ $(function () {
 
     const submit = function (e) {
         e.preventDefault();
+
         const newEmployee = {
             name: $('#exampleFormControlInput1').val().trim(),
             photo: $('#exampleFormControlInput2').val().trim(),
@@ -16,17 +17,23 @@ $(function () {
                 $('#exampleFormControlSelect8').val(),
                 $('#exampleFormControlSelect9').val(),
                 $('#exampleFormControlSelect10').val()
-
             ]
         };
 
-        $.ajax({
-            method: 'POST',
-            url: '/api/employees',
-            data: newEmployee
+        console.log(newEmployee.scores);
+        console.log("HEY")
+
+        $.post("/api/employees", newEmployee, function (response) {
+            console.log(response);
+            $(".modal").modal();
+            $(".modal-body").append(`<h1>${response.name}<h1>`);
+            console.log(response.photo);
+            $(".modal-image").append(`<img src = "${response.photo}"></img>`);
         });
 
-        $('.submit').on('click', console.log(submit));
+
     };
+
+    $('#submit').on('click', submit);
 
 });

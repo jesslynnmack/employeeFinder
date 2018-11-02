@@ -10,8 +10,34 @@ module.exports = function (app) {
     });
 
     app.post('/api/employees', function (req, res) {
-        // survey logic
+        //survey logic 
+        let newEmployee = req.body;
+        console.log(newEmployee);
+     
+        let lowestDifference = null;
+        let bestMatch = null;
+        for(let i = 0; i < employees.length; i++ ){
+            let currentEmployee = employees[i];
+            let totalDifference = 0;
+           
+            for(let i = 0; i < currentEmployee.scores.length; i++) {
+               let scoreDifference = currentEmployee.scores[i] - newEmployee.scores[i];
+               totalDifference += Math.abs(scoreDifference);
+               
+            }
+            console.log(totalDifference, "total difference");
 
+            if( lowestDifference === null || totalDifference < lowestDifference) {
+                lowestDifference = totalDifference;
+                bestMatch = currentEmployee;
+                console.log(bestMatch, " this is the best match");
+            }
+
+               
+        } 
+        console.log(bestMatch);
+        // employees.push(newEmployee);
+        res.json(bestMatch);
     });
 
-};
+}
